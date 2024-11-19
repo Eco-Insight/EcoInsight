@@ -9,7 +9,7 @@ const EcoInsight = () => {
           isSticky={false}
           fixedWidth
           hideSearch
-          buttonClass="btn-primary btn-sm"
+          buttonClass="btn-success btn-sm"
         />
       </div>
     </>
