@@ -15,19 +15,19 @@ const Features2 = () => {
               data-aos="fade-up"
               data-aos-duration="200"
             >
-              <span className="bg-soft-primary avatar avatar-sm rounded-lg icon icon-with-bg icon-xs text-primary me-3 mb-4">
+              <span className="badge-soft-primary avatar avatar-sm rounded-lg icon icon-with-bg icon-xs text-primary me-3 mb-4">
                 <FeatherIcon icon="disc" className="icon-dual-primary" />
               </span>
               <h1 className="text-dark">
-                Smart Payroll. Paying your people couldn't be easier
+                Gerenciamento Inteligente. Sustentabilidade Simples
               </h1>
               <p className="text-muted my-4">
-                You can modify your pages with drag-dropping , can import demos
-                with just ” One Click” and can modify theme setting easy-to-use
-                options panel.
+                Gerencie seus projetos com eficiência, visualizando dados claros
+                e colaborando em equipe. Com o EcoInsight, tudo é fácil de
+                personalizar e adaptar às suas metas.
               </p>
               <Link to="#" className="h6 text-primary pt-3">
-                Learn more
+                Comece agora
                 <FeatherIcon className="ms-1 icon-xxs" icon="arrow-right" />
               </Link>
             </div>
