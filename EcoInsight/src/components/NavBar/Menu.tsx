@@ -90,7 +90,7 @@ const Menu = ({
 
           <Nav.Item as="li">
             <Link to="#" className={classNames("btn", buttonClass)}>
-              Download
+              Cadastre-se
             </Link>
           </Nav.Item>
         </>

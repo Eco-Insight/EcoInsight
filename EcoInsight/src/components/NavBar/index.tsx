@@ -57,7 +57,7 @@ const NavbarMenu = ({
       >
         <Container fluid={!fixedWidth}>
           <Navbar.Brand href="/" className="logo">
-            <h1 className="menu-title text-success">EcoInsight</h1>
+            <h1 className="menu-title text-primary">EcoInsight</h1>
           </Navbar.Brand>
 
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -83,7 +83,7 @@ const NavbarMenu = ({
             <Menu
               showDownload
               navClass="ms-auto"
-              buttonClass={buttonClass ? buttonClass : "btn-success"}
+              buttonClass={buttonClass ? buttonClass : "btn-primary"}
             />
           </Navbar.Collapse>
         </Container>

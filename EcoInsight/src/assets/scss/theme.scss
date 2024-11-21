@@ -19,6 +19,12 @@
 
 //plugins
 @import "custom/plugins/aos";
+@import "custom/plugins/rateit";
+@import "custom/plugins/gallery";
+@import "custom/plugins/daterange";
+@import "custom/plugins/leaflet";
+@import "custom/plugins/jarallex";
+@import "custom/plugins/lightbox";
 
 //structure
 @import "custom/structure/sidenav";
@@ -30,3 +36,8 @@
 @import "custom/components/icons";
 @import "custom/components/avatar";
 @import "custom/components/ribbon";
+
+//theme components
+@import "custom/components/header";
+@import "custom/components/hero";
+@import "custom/components/features";

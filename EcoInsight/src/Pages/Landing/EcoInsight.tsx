@@ -1,4 +1,5 @@
 import BackToTop from "../../components/BackToTop/BackToTop";
+import Hero4 from "../../components/Hero/Hero4";
 import NavbarMenu from "../../components/NavBar/index";
 import { features } from "./data";
 import Features from "./Features";
@@ -14,8 +15,9 @@ const EcoInsight = () => {
           isSticky={false}
           fixedWidth
           hideSearch
-          buttonClass="btn-success btn-sm"
+          buttonClass="btn-primary btn-sm"
         />
+        <Hero4 />
       </div>
 
       <Features
