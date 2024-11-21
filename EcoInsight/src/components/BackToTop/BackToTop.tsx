@@ -10,7 +10,7 @@ const BackToTop = ({ variant }: BackToTopProps) => {
   return (
     <Link
       className={classNames(
-        "btn",
+        "btn-primary",
         "btn-soft-" + variant,
         "shadow-none",
         "btn-icon",
