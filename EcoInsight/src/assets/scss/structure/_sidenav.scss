@@ -1,3 +1,8 @@
+//
+// sidenav.scss
+// Theme components
+//
+
 .sidenav {
   @include media-breakpoint-up(lg) {
     position: fixed;
