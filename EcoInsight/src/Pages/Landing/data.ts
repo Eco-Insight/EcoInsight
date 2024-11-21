@@ -2,19 +2,19 @@ import { Feature } from "./types";
 
 const features: Feature[] = [
   {
-    avatar: "users",
+    avatar: "user-plus",
     title: "Melhore o Impacto Ambiental",
     description:
       "Com o EcoInsight, sua empresa pode identificar oportunidades para reduzir impactos ambientais por meio de diagnósticos detalhados e recomendações personalizadas.",
-    variant: "primary",
+    variant: "success",
     containerClass: "d-flex border-bottom pb-4 badge-soft ",
   },
   {
-    avatar: "user-plus",
+    avatar: "users",
     title: "Transforme sua Equipe Hoje",
     description:
       "Reforce seu time com talentos alinhados à sustentabilidade e ao futuro responsável da sua empresa.",
-    variant: "success",
+    variant: "primary",
     containerClass: "d-flex border-bottom py-4",
   },
   {
