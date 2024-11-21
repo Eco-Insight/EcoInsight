@@ -22,9 +22,10 @@ const Features2 = () => {
                 Gerenciamento Inteligente. Sustentabilidade Simples
               </h1>
               <p className="text-muted my-4">
-                Gerencie seus projetos com eficiência, visualizando dados claros
-                e colaborando em equipe. Com o EcoInsight, tudo é fácil de
-                personalizar e adaptar às suas metas.
+                Gerencie seus projetos com eficiência, visualizando dados
+                energéticos claros e colaborando em equipe. Com a EcoInsight,
+                você encontra soluções personalizáveis para otimizar o uso de
+                energia e atingir suas metas ambientais com facilidade.
               </p>
               <Link to="#" className="h6 text-primary pt-3">
                 Comece agora

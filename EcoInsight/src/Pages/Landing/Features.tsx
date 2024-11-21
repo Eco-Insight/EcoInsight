@@ -116,8 +116,8 @@ const Features1 = ({ features, containerClass }: FeaturesProps) => {
             <p className="text-muted mx-auto">
               Comece a trabalhar com a <span />
               <span className="text-primary fw-bold">EcoInsight</span> para
-              gerenciar a sustentabilidade dos seus projetos de forma mais
-              eficiente.
+              transformar a gestão energética dos seus projetos e reduzir seus
+              impactos ambientais
             </p>
           </Col>
         </Row>

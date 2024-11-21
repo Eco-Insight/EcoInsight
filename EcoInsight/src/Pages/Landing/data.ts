@@ -5,7 +5,7 @@ const features: Feature[] = [
     avatar: "user-plus",
     title: "Melhore o Impacto Ambiental",
     description:
-      "Com o EcoInsight, sua empresa pode identificar oportunidades para reduzir impactos ambientais por meio de diagnósticos detalhados e recomendações personalizadas.",
+      "Com a EcoInsight, sua empresa pode identificar oportunidades para otimizar o uso de fontes energéticas, reduzir impactos ambientais e adotar práticas mais sustentáveis. ",
     variant: "success",
     containerClass: "d-flex border-bottom pb-4 badge-soft ",
   },

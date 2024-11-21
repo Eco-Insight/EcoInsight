@@ -3,6 +3,7 @@ import NavbarMenu from "../../components/NavBar/index";
 import { features } from "./data";
 import Features from "./Features";
 import Features2 from "./Features2";
+import Features3 from "./Features3";
 
 const EcoInsight = () => {
   return (
@@ -23,6 +24,8 @@ const EcoInsight = () => {
       />
 
       <Features2 />
+
+      <Features3 />
 
       <BackToTop />
     </>
