@@ -1,20 +1,32 @@
 // FONTS
-@import "custom/fonts";
+@import "../scss/fonts";
 
 //CORE FILES
 @import "../../../node_modules/bootstrap/scss/functions";
 @import "../../../node_modules/bootstrap/scss/variables";
-@import "skins/default/variables";
-@import "skins/default/custom-variables";
+@import "../scss/skins/default/variables";
+@import "../scss/skins/default/custom-variables";
 @import "../../../node_modules/bootstrap/scss/bootstrap";
 
 // general
 @import "custom/general";
 
 // components
-
 @import "components/navbar";
 @import "components/nav";
+@import "components/badge";
+@import "components/buttons";
+
+//plugins
+@import "custom/plugins/aos";
+
+//structure
+@import "custom/structure/sidenav";
 
 // theme components
 @import "custom/components/header";
+
+//custom components
+@import "custom/components/icons";
+@import "custom/components/avatar";
+@import "custom/components/ribbon";
