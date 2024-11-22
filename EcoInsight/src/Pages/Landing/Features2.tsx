@@ -27,7 +27,7 @@ const Features2 = () => {
                 você encontra soluções personalizáveis para otimizar o uso de
                 energia e atingir suas metas ambientais com facilidade.
               </p>
-              <Link to="#" className="h6 text-primary pt-3">
+              <Link to="/auth/signup" className="h6 text-primary pt-3">
                 Comece agora
                 <FeatherIcon className="ms-1 icon-xxs" icon="arrow-right" />
               </Link>

@@ -96,7 +96,7 @@ const Features3 = () => {
         </Row>
         <Row className="mt-5 justify-content-center">
           <Col xs="auto">
-            <Link to="#" className="btn btn-primary mb-2">
+            <Link to="/auth/signup" className="btn btn-primary mb-2">
               Comece Agora
               <FeatherIcon className="icon-xs ms-2" icon="arrow-right" />
             </Link>

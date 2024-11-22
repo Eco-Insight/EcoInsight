@@ -1,6 +1,7 @@
 import basicLightbox from "basiclightbox";
 import "basiclightbox/dist/basicLightbox.min.css";
 import { Button, Col, Container, Row } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import sass from "../../assets/images/saas.jpg";
 
 const Hero4 = () => {
@@ -8,7 +9,16 @@ const Hero4 = () => {
     const instance = basicLightbox.create(`
       <img src="${sass}" alt="Full size" style="width: 100%; height: auto; border-radius: 10px;" />
     `);
-    instance.show(); // Correct usage of show()
+    instance.show();
+  };
+
+  const navigate = useNavigate();
+
+  const handleScrollToFeatures = () => {
+    const featuresSection = document.getElementById("features");
+    if (featuresSection) {
+      featuresSection.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
@@ -25,8 +35,14 @@ const Hero4 = () => {
               o seu negócio e o planeta
             </p>
             <div className="pt-3 pt-sm-5">
-              <Button>Iniciar Agora</Button>
-              <Button variant="outline-primary" className="ms-2">
+              <Button onClick={() => navigate("/auth/signup")}>
+                Iniciar Agora
+              </Button>
+              <Button
+                variant="outline-primary"
+                className="ms-2"
+                onClick={handleScrollToFeatures}
+              >
                 Saiba Mais
               </Button>
             </div>

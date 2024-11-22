@@ -90,7 +90,7 @@ const FeaturesList = ({ item, index }: { item: Feature; index: number }) => {
         <Accordion.Collapse eventKey={String(index)}>
           <div>
             <p className="text-muted mt-1 mb-4">{item.description}</p>
-            <Link to="#" className="h6 text-primary">
+            <Link to="/auth/signup" className="h6 text-primary">
               Comece agora
               <FeatherIcon className="ms-1 icon-xxs" icon="arrow-right" />
             </Link>
