@@ -1,61 +1,83 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import FeatherIcon from "feather-icons-react";
-import { Alert, Button, Col, Row } from "react-bootstrap";
-import { Link, Navigate } from "react-router-dom";
+import React from "react";
+import { Alert, Button } from "react-bootstrap";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import * as yup from "yup";
 
+import { loginUser } from "../../api/authApi";
 import { FormInput, VerticalForm } from "../../components/form";
-
 import AuthLayout from "./AuthLayout";
 
+type LocationState = {
+  from: {
+    pathname: string;
+  };
+};
+
 type UserData = {
-  exampleName: string;
   email: string;
   password: string;
 };
 
-const SignUp = () => {
+const Login = () => {
   const schemaResolver = yupResolver(
     yup.object().shape({
-      exampleName: yup.string().required("Por favor, insira seu nome."),
       email: yup
         .string()
-        .required("Por favor, insira seu email.")
-        .email("Por favor, insira um email válido."),
-      password: yup.string().required("Por favor, insira sua senha."),
+        .required("Por favor, insira o Email")
+        .email("Por favor, insira um Email válido"),
+      password: yup.string().required("Por favor, insira a Senha"),
     })
   );
 
-  const onSubmit = (formData: UserData) => {
-    console.log("Dados enviados:", {
-      fullname: formData.exampleName,
-      email: formData.email,
-      password: formData.password,
-    });
-  };
+  const location = useLocation();
+  let redirectUrl = "/auth/dashboard";
 
-  const user = null; // Substituir pela lógica real de usuário
-  const error = "";
+  if (location.state) {
+    const { from } = location.state as LocationState;
+    redirectUrl = from ? from.pathname : "/auth/dashboard";
+  }
+
+  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
+
+  const onSubmit = async (formData: UserData) => {
+    try {
+      setError(null);
+      const response = await loginUser(formData);
+      console.log("Token recebido:", response.token);
+      localStorage.setItem("authToken", response.token);
+      setIsAuthenticated(true);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An unknown error occurred");
+      }
+    }
+  };
 
   return (
     <>
-      {user && <Navigate to="/auth/confirm" replace />}
+      {/* Redireciona após login bem-sucedido */}
+      {isAuthenticated && <Navigate to={redirectUrl} replace />}
       <AuthLayout
         hasSlider
         bottomLinks={
           <p className="text-muted">
-            Já tem uma conta?
-            <Link to="/auth/login" className="text-primary fw-semibold ms-1">
-              Faça login
+            {"Ainda não tem uma conta?"}
+            <Link to="/auth/signup" className="text-primary fw-semibold ms-1">
+              {"Cadastre-se"}
             </Link>
           </p>
         }
       >
-        <h6 className="h5 mb-0 mt-3">Crie sua conta</h6>
+        <h6 className="h5 mb-0 mt-3">{"Bem-vindo de volta!"}</h6>
         <p className="text-muted mt-1 mb-4">
-          Não tem uma conta? Crie sua conta agora, é rápido e fácil.
+          {"Digite seu e-mail e senha para acessar sua conta."}
         </p>
 
+        {/* Exibição de erro caso a API retorne uma falha */}
         {error && (
           <Alert variant="danger" className="mb-3">
             {error}
@@ -65,48 +87,47 @@ const SignUp = () => {
         <VerticalForm<UserData>
           onSubmit={onSubmit}
           resolver={schemaResolver}
-          defaultValues={{}}
+          defaultValues={{ email: "", password: "" }}
         >
-          <FormInput
-            type="text"
-            name="exampleName"
-            label="Seu nome"
-            placeholder="Insira seu nome"
-            containerClass="mb-3"
-          />
           <FormInput
             type="email"
             name="email"
-            label="Email"
-            placeholder="Insira seu email"
-            containerClass="mb-3"
+            label={"Email"}
+            placeholder={"Digite seu email"}
+            containerClass={"mb-3"}
           />
+
           <FormInput
-            label="Senha"
+            label={"Senha"}
             type="password"
             name="password"
-            placeholder="Insira sua senha"
-            containerClass="mb-3"
+            placeholder={"Digite sua senha"}
+            action={
+              <Link
+                to="/auth/forget-password"
+                className="float-end text-muted text-unline-dashed ms-1 fs-13"
+              >
+                {"Esqueceu sua senha?"}
+              </Link>
+            }
+            containerClass={"mb-3"}
           />
+
+          <FormInput
+            type="checkbox"
+            name="rememberMe"
+            label={"Lembrar-me"}
+            containerClass={"mb-3"}
+            defaultChecked
+          />
+
           <div className="mb-0 text-center d-grid">
-            <Button type="submit">Registrar</Button>
+            <Button type="submit">{"Entrar"}</Button>
           </div>
         </VerticalForm>
-
-        <div className="py-3 text-center">
-          <span className="fs-13 fw-bold">OU</span>
-        </div>
-        <Row>
-          <Col xs={12} className="text-center">
-            <Link to="#" className="btn btn-white w-100">
-              <FeatherIcon icon="github" className="icon icon-xs me-2" />
-              Registrar com Github
-            </Link>
-          </Col>
-        </Row>
       </AuthLayout>
     </>
   );
 };
 
-export default SignUp;
+export default Login;

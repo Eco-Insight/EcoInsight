@@ -1,6 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import FeatherIcon from "feather-icons-react";
-import { Alert, Button, Col, Row } from "react-bootstrap";
+import { Alert, Button } from "react-bootstrap";
 import { Link, Navigate, useLocation } from "react-router-dom";
 import * as yup from "yup";
 
@@ -20,9 +19,6 @@ type UserData = {
 };
 
 const Login = () => {
-  /*
-   * Validação do formulário usando yup
-   */
   const schemaResolver = yupResolver(
     yup.object().shape({
       email: yup
@@ -33,18 +29,13 @@ const Login = () => {
     })
   );
 
-  /*
-   * Simulação de login - substitua com integração real ao backend
-   */
   const fakeLogin = (credentials: UserData) => {
-    // Simula autenticação - substitua com lógica real
     console.log("Credenciais enviadas:", credentials);
-    // Retorne `true` como exemplo de sucesso
     return true;
   };
 
   const location = useLocation();
-  let redirectUrl = "/";
+  let redirectUrl = "/auth/dashboard";
 
   if (location.state) {
     const { from } = location.state as LocationState;
@@ -132,18 +123,6 @@ const Login = () => {
             <Button type="submit">{"Entrar"}</Button>
           </div>
         </VerticalForm>
-
-        <div className="py-3 text-center">
-          <span className="fs-13 fw-bold">{"OU"}</span>
-        </div>
-        <Row>
-          <Col xs={12} className="text-center">
-            <Link to="#" className="btn btn-white w-100">
-              <FeatherIcon icon="github" className="icon icon-xs me-2" />
-              {"Entrar com Github"}
-            </Link>
-          </Col>
-        </Row>
       </AuthLayout>
     </>
   );
