@@ -1,14 +1,22 @@
+import { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-
-import Navbar4 from "../../components/navbarDashboard/Navbar4";
-
-import ProfileWidget from "./ProfileWidget";
-import ReecentProjects from "./RecentProjects";
+import { Project } from "./types";
 
 import Footer2 from "../../components/footer/Footer2";
-import { projects } from "./data";
+import Navbar4 from "../../components/navbarDashboard/Navbar4";
+import ProfileWidget from "./ProfileWidget";
+import RecentProjects from "./RecentProjects";
+
+// Dados iniciais dos projetos
+import { projects as initialProjects } from "./data";
 
 const Dashboard = () => {
+  const [projects, setProjects] = useState(initialProjects);
+
+  const addProject = (newProject: Project) => {
+    setProjects((prevProjects) => [newProject, ...prevProjects]);
+  };
+
   return (
     <>
       <Navbar4 fixedWidth />
@@ -24,10 +32,9 @@ const Dashboard = () => {
             </Col>
           </Row>
           <Row>
-            <ProfileWidget />
+            <ProfileWidget onAddProject={addProject} />
           </Row>
-
-          <ReecentProjects projects={projects} />
+          <RecentProjects projects={projects} />
         </Container>
       </section>
 

@@ -1,98 +1,166 @@
 import FeatherIcon from "feather-icons-react";
-import { Card, Col, Dropdown, ProgressBar, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
-
+import { useState } from "react";
+import { Button, Card, Col, Form, Modal } from "react-bootstrap";
+import { createProject } from "../.././api/authApi"; // Certifique-se de que o caminho está correto
 import profile from "../../assets/images/avatars/img-8.jpg";
 
-const ProfileWidget = () => {
+type ProfileWidgetProps = {
+  onAddProject: (newProject: {
+    projectName: string;
+    description: string;
+    location: string;
+    estimatedBudget: number;
+    plannedEnergyTypes: string[];
+    mainObjective: string;
+    title: string;
+    time: string;
+    state: { name: string; variant: string };
+    progress: { value: number; variant: string };
+    member: string[];
+  }) => void;
+};
+
+const ProfileWidget = ({ onAddProject }: ProfileWidgetProps) => {
+  const [showModal, setShowModal] = useState(false);
+  const [success, setSuccess] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleClose = () => setShowModal(false);
+  const handleShow = () => setShowModal(true);
+
+  const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+
+    const newProject = {
+      projectName: formData.get("projectName") as string,
+      description: formData.get("description") as string,
+      location: formData.get("location") as string,
+      estimatedBudget: parseFloat(formData.get("estimatedBudget") as string),
+      plannedEnergyTypes: (formData.get("plannedEnergyTypes") as string)
+        ?.split(",")
+        .map((type) => type.trim()),
+      mainObjective: formData.get("mainObjective") as string,
+    };
+
+    try {
+      const token = "TOKEN_DO_USUÁRIO"; // Substituir pelo token real
+      const response = await createProject(newProject, token);
+
+      console.log("Resposta do backend:", response); // Exibe a resposta no console
+
+      onAddProject({
+        ...newProject,
+        title: newProject.projectName,
+        time: new Date().toLocaleDateString("pt-BR", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        }),
+        state: { name: "Novo", variant: "primary" },
+        progress: { value: 0, variant: "success" },
+        member: [profile],
+      });
+
+      setSuccess("Projeto cadastrado com sucesso!");
+      setError(null);
+
+      setTimeout(() => {
+        setSuccess(null);
+        handleClose();
+      }, 2000);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || "Erro ao cadastrar o projeto.");
+      } else {
+        setError("Erro ao cadastrar o projeto.");
+      }
+    }
+  };
+
   return (
-    <Col lg={5}>
-      <Card>
-        <Card.Body>
-          <Row>
-            <Col>
-              <div className="d-flex">
-                <img
-                  src={profile}
-                  alt="profile"
-                  className="img-fluid avatar-sm rounded-sm me-3"
-                />
-                <div className="flex-grow-1">
-                  <h4 className="mb-1 mt-0 fs-16">Empresa Ficticia</h4>
-                  <p className="text-muted pb-0 fs-14">
-                    Empresa de consultoria de sustentabilidade
-                  </p>
-                </div>
+    <>
+      <Col lg={5}>
+        <Card>
+          <Card.Body>
+            <div className="d-flex justify-content-between">
+              <div>
+                <h4 className="mb-1 mt-0 fs-16">Empresa Fictícia</h4>
+                <p className="text-muted pb-0 fs-14">
+                  Empresa de consultoria de sustentabilidade
+                </p>
               </div>
-            </Col>
-            <Col xs="auto">
-              <Dropdown align="end">
-                <Dropdown.Toggle
-                  as={Link}
-                  to="#"
-                  id="dropdownMenuLink-1"
-                  className="btn-link text-muted p-0"
-                >
-                  <FeatherIcon
-                    icon="more-horizontal"
-                    className="icon icon-xs"
-                  />
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Dropdown.Item>
-                    <FeatherIcon icon="edit" className="icon-xxs icon me-2" />{" "}
-                    Editar
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    <FeatherIcon
-                      icon="refresh-cw"
-                      className="icon-xxs icon me-2"
-                    />{" "}
-                    Atualizar
-                  </Dropdown.Item>
-                  <Dropdown.Divider as="div" />
-                  <Dropdown.Item className="text-danger">
-                    <FeatherIcon
-                      icon="trash-2"
-                      className="icon-xxs icon me-2"
-                    />{" "}
-                    Desativar
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </Col>
-          </Row>
+              <Button variant="primary" onClick={handleShow}>
+                <FeatherIcon icon="plus" className="icon-xs me-2" />
+                Novo Projeto
+              </Button>
+            </div>
+          </Card.Body>
+        </Card>
+      </Col>
 
-          <ul className="list-inline py-3 border-bottom">
-            <li className="list-inline-item mb-sm-0 mb-2 me-sm-2">
-              <Link to="#" className="text-muted fs-14">
-                <FeatherIcon icon="mail" className="icon-xs icon me-1" />
-                empresa@gmail.com
-              </Link>
-            </li>
-            <li className="list-inline-item mb-sm-0 mb-2">
-              <Link to="#" className="text-muted fs-14">
-                <FeatherIcon icon="phone" className="icon-xs icon me-2" />
-                +55 11 99999-9999
-              </Link>
-            </li>
-          </ul>
-
-          <Row className="align-items-center pt-1">
-            <Col md={6} className="mt-md-0 mt-4">
-              <p className="float-end mb-0">7.5</p>
-              <h6 className="fw-medium my-0">Score do projeto</h6>
-              <ProgressBar
-                now={75}
-                variant="orange"
-                className="mt-3"
-                style={{ height: "6px" }}
+      <Modal show={showModal} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Cadastrar Projeto</Modal.Title>
+        </Modal.Header>
+        <Form onSubmit={handleFormSubmit}>
+          <Modal.Body>
+            <Form.Group className="mb-3">
+              <Form.Label>Nome do Projeto</Form.Label>
+              <Form.Control name="projectName" placeholder="Digite o nome" />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Descrição</Form.Label>
+              <Form.Control
+                as="textarea"
+                name="description"
+                placeholder="Digite a descrição"
               />
-            </Col>
-          </Row>
-        </Card.Body>
-      </Card>
-    </Col>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Localização</Form.Label>
+              <Form.Control
+                name="location"
+                placeholder="Digite a localização"
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Orçamento Estimado</Form.Label>
+              <Form.Control
+                name="estimatedBudget"
+                type="number"
+                placeholder="Digite o orçamento"
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Tipos de Energia Planejados</Form.Label>
+              <Form.Control
+                name="plannedEnergyTypes"
+                placeholder="Digite os tipos separados por vírgula"
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Objetivo Principal</Form.Label>
+              <Form.Control
+                name="mainObjective"
+                placeholder="Digite o objetivo principal"
+              />
+            </Form.Group>
+            {error && <p className="text-danger">{error}</p>}
+            {success && <p className="text-success">{success}</p>}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Cancelar
+            </Button>
+            <Button type="submit" variant="primary">
+              Cadastrar
+            </Button>
+          </Modal.Footer>
+        </Form>
+      </Modal>
+    </>
   );
 };
 

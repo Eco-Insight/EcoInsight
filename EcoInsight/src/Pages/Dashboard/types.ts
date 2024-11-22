@@ -1,27 +1,19 @@
 export type Project = {
-    time: string;
-    title: string;
-    state: {
-        name: string;
-        variant: string;
-    };
-    description: string;
-    progress: {
-        value: number;
-        variant: string;
-    };
-    member: string[];
-}
-
-export type Task = {
-    id: number;
-    title: string;
-    time: string;
+  title: string; // Este é o nome do projeto
+  projectName?: string;
+  description: string;
+  location: string;
+  estimatedBudget: number;
+  plannedEnergyTypes: string[];
+  mainObjective: string;
+  time?: string;
+  state?: {
+    name: string;
     variant: string;
-    taskRatio: {
-        completedTask: number;
-        totalTask: number;
-    };
-    comment: number;
-    priority: string;
-}
+  };
+  progress?: {
+    value: number;
+    variant: string;
+  };
+  member?: string[];
+};
