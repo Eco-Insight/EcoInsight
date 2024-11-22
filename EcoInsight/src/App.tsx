@@ -1,21 +1,16 @@
+import AOS from "aos";
 import { useEffect } from "react";
 
-import AOS from "aos";
-
 import "./assets/scss/theme.scss"; // Importação do tema
-import EcoInsight from "./Pages/Landing/EcoInsight";
+import AppRoutes from "./routes/Routes";
 
 const App = () => {
-  // Configuração para inicializar o AOS
+  // Inicialização do AOS (animações)
   useEffect(() => {
     AOS.init();
   }, []);
 
-  return (
-    <>
-      <EcoInsight />
-    </>
-  );
+  return <AppRoutes />;
 };
 
 export default App;
