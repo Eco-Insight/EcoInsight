@@ -1,3 +1,4 @@
+import FeatherIcon from "feather-icons-react";
 import { Badge, Col, Container, Row } from "react-bootstrap";
 
 // types
@@ -14,13 +15,13 @@ const Team = ({ teamMembers }: TeamProps) => {
         <Row className="justify-content-center">
           <Col className="text-center">
             <Badge pill bg="" className="badge-soft-info px-2 py-1">
-              Our Team
+              Nosso time
             </Badge>
-            <h1 className="display-5 fw-medium">Meet Our Team</h1>
+            <h1 className="display-5 fw-medium">Conheça nosso time</h1>
             <p className="text-muted mx-auto">
-              Start working with{" "}
-              <span className="text-dark fw-bold">Prompt</span> to manage your
-              workforce better.
+              Comece a trabalhar com a{" "}
+              <span className="text-dark fw-bold">EcoInsight</span> por um mundo
+              mais sustentável
             </p>
           </Col>
         </Row>
@@ -36,9 +37,43 @@ const Team = ({ teamMembers }: TeamProps) => {
                   />
                   <div className="flex-grow-1">
                     <h5 className="mt-0 mb-1 fw-medium">{teamMember.name}</h5>
-                    <p className="text-muted fw-medium mb-0">
+                    <p className="text-muted fw-medium mb-1">
                       {teamMember.designation}
+                      {teamMember.rm && (
+                        <span className="text-muted fw-medium">
+                          {" "}
+                          - RM: {teamMember.rm}
+                        </span>
+                      )}
+                      {teamMember.turma && (
+                        <span className="text-muted fw-medium">
+                          {" "}
+                          Turma: {teamMember.turma}
+                        </span>
+                      )}
                     </p>
+                    <div className="d-flex gap-2">
+                      {teamMember.linkedin && (
+                        <a
+                          href={teamMember.linkedin}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary"
+                        >
+                          <FeatherIcon icon="linkedin" className="icon-xs" />
+                        </a>
+                      )}
+                      {teamMember.github && (
+                        <a
+                          href={teamMember.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-dark"
+                        >
+                          <FeatherIcon icon="github" className="icon-xs" />
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </div>
               </Col>

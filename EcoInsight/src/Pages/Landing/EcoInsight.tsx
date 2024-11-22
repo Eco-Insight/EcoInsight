@@ -1,10 +1,10 @@
 import BackToTop from "../../components/BackToTop/BackToTop";
+import Footer2 from "../../components/footer/Footer2";
 import Hero4 from "../../components/hero/Hero4";
 import NavbarMenu from "../../components/navbar/index";
 import { teamMembers } from "../../components/team/data";
 import Team from "../../components/team/Team";
 import { features } from "../landing/data";
-import FAQs from "./FAQs";
 import Features from "./Features";
 import Features2 from "./Features2";
 import Features3 from "./Features3";
@@ -34,7 +34,7 @@ const EcoInsight = () => {
 
       <Team teamMembers={teamMembers} />
 
-      <FAQs />
+      <Footer2 />
 
       <BackToTop />
     </>
