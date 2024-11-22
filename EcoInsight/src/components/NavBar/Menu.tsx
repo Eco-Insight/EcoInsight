@@ -89,7 +89,7 @@ const Menu = ({
           )}
 
           <Nav.Item as="li">
-            <Link to="#" className={classNames("btn", buttonClass)}>
+            <Link to="/auth/signup" className={classNames("btn", buttonClass)}>
               Cadastre-se
             </Link>
           </Nav.Item>
