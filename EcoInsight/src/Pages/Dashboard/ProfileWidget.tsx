@@ -1,11 +1,10 @@
-import FeatherIcon from "feather-icons-react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Button, Card, Col, Form, Modal } from "react-bootstrap";
-import { createProject } from "../.././api/authApi"; // Certifique-se de que o caminho está correto
-import profile from "../../assets/images/avatars/img-8.jpg";
+import { mockCreateProject } from "../../api/authApi";
 
 type ProfileWidgetProps = {
   onAddProject: (newProject: {
+    projectId: string;
     projectName: string;
     description: string;
     location: string;
@@ -45,13 +44,11 @@ const ProfileWidget = ({ onAddProject }: ProfileWidgetProps) => {
     };
 
     try {
-      const token = "TOKEN_DO_USUÁRIO"; // Substituir pelo token real
-      const response = await createProject(newProject, token);
+      const response = await mockCreateProject(newProject);
 
-      console.log("Resposta do backend:", response); // Exibe a resposta no console
-
-      onAddProject({
+      const updatedProject = {
         ...newProject,
+        projectId: response.projectId,
         title: newProject.projectName,
         time: new Date().toLocaleDateString("pt-BR", {
           year: "numeric",
@@ -60,8 +57,11 @@ const ProfileWidget = ({ onAddProject }: ProfileWidgetProps) => {
         }),
         state: { name: "Novo", variant: "primary" },
         progress: { value: 0, variant: "success" },
-        member: [profile],
-      });
+        member: [],
+      };
+
+      // Atualiza o estado global dos projetos
+      onAddProject(updatedProject);
 
       setSuccess("Projeto cadastrado com sucesso!");
       setError(null);
@@ -70,12 +70,8 @@ const ProfileWidget = ({ onAddProject }: ProfileWidgetProps) => {
         setSuccess(null);
         handleClose();
       }, 2000);
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message || "Erro ao cadastrar o projeto.");
-      } else {
-        setError("Erro ao cadastrar o projeto.");
-      }
+    } catch {
+      setError("Erro ao cadastrar o projeto.");
     }
   };
 
@@ -92,7 +88,6 @@ const ProfileWidget = ({ onAddProject }: ProfileWidgetProps) => {
                 </p>
               </div>
               <Button variant="primary" onClick={handleShow}>
-                <FeatherIcon icon="plus" className="icon-xs me-2" />
                 Novo Projeto
               </Button>
             </div>

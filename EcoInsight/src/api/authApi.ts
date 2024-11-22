@@ -89,6 +89,25 @@ export const createProject = async (
   }
 };
 
+//Mock de criação do projeto que irá ser enviado para o back
+export const mockCreateProject = async (projectData: {
+  projectName: string;
+  description: string;
+  location: string;
+  estimatedBudget: number;
+  plannedEnergyTypes: string[];
+  mainObjective: string;
+}): Promise<{ projectId: string }> => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log("Mock project data:", projectData); // Use projectData
+      resolve({
+        projectId: `mock-${Date.now()}`, // Gera um projectId único
+      });
+    }, 1000); // Simula o tempo de resposta
+  });
+};
+
 export const getProjects = async (token: string) => {
   try {
     const response = await api.get("/projects", {
@@ -125,4 +144,39 @@ export const getDiagnostic = async (projectId: number) => {
   } catch (error: unknown) {
     handleApiError(error, "Erro ao obter o diagnóstico.");
   }
+};
+
+export const submitDiagnostic = async (diagnosticData: {
+  diagnosticResponses: Record<string, number>;
+}) => {
+  try {
+    const response = await api.post(`/projects/diagnostic`, diagnosticData, {
+      headers: { "Content-Type": "application/json" },
+    });
+    return response.data; // Retorna o resultado do diagnóstico
+  } catch (error: unknown) {
+    handleApiError(error, "Erro ao enviar o diagnóstico.");
+  }
+};
+
+// Mock de envio de diagnóstico
+export const mockSubmitDiagnostic = async (
+  projectId: string,
+  data: { diagnosticResponses: Record<string, number> }
+): Promise<{ score: number; recommendations: string[] }> => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log(
+        `Mock diagnóstico enviado para o projeto: ${projectId}`,
+        data
+      );
+      resolve({
+        score: Math.floor(Math.random() * 100), // Score mockado
+        recommendations: [
+          "Considerar implementação de um comitê ambiental envolvendo diferentes departamentos.",
+          "Desenvolver políticas ambientais documentadas e revisá-las periodicamente.",
+        ],
+      });
+    }, 1000); // Simula tempo de resposta do backend
+  });
 };

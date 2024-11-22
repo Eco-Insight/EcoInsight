@@ -25,7 +25,7 @@ const ProfileDropdown = ({ profileOptions }: ProfileProps) => {
           </div>
           <div className="flex-grow-1 ms-1 lh-base">
             <span className="fw-semibold fs-13 d-block line-height-normal">
-              Empresa Ficticia
+              Empresa Fictícia
             </span>
             <span className="text-muted fs-13">Admin</span>
           </div>
@@ -33,22 +33,25 @@ const ProfileDropdown = ({ profileOptions }: ProfileProps) => {
       </Dropdown.Toggle>
 
       <Dropdown.Menu className="p-2" renderOnMount>
-        {(profileOptions || []).map((profile, index) => {
-          return (
-            <React.Fragment key={index.toString()}>
-              {index === profileOptions.length - 1 && (
-                <Dropdown.Divider as="div" />
-              )}
-              <Dropdown.Item className="p-2">
-                <FeatherIcon
-                  icon={profile.icon}
-                  className="icon icon-xxs me-1 icon-dual"
-                />
-                {profile.label}
-              </Dropdown.Item>
-            </React.Fragment>
-          );
-        })}
+        {(profileOptions || []).map((profile, index) => (
+          <React.Fragment key={index.toString()}>
+            {index === profileOptions.length - 1 && (
+              <Dropdown.Divider as="div" />
+            )}
+            <Dropdown.Item
+              className="p-2"
+              onClick={() => {
+                if (profile.action) profile.action(); // Chama a função de ação, que redireciona
+              }}
+            >
+              <FeatherIcon
+                icon={profile.icon}
+                className="icon icon-xxs me-1 icon-dual"
+              />
+              {profile.label}
+            </Dropdown.Item>
+          </React.Fragment>
+        ))}
       </Dropdown.Menu>
     </Dropdown>
   );

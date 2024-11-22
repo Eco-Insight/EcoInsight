@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import { Nav } from "react-bootstrap";
-import { Link, NavLink } from "react-router-dom";
 
 type MenuProps = {
   showDownload?: boolean;
@@ -18,80 +17,41 @@ const Menu = ({
   return (
     <Nav as="ul" className={classNames("align-items-lg-center", navClass)}>
       <Nav.Item as="li">
-        <NavLink
-          to="/home"
-          end
-          className={classNames(
-            "nav-link",
-            ({ ...isActive }) => isActive && "active"
-          )}
-        >
+        <a href="#home" className="nav-link">
           Home
-        </NavLink>
+        </a>
       </Nav.Item>
       <Nav.Item as="li">
-        <NavLink
-          to="/features"
-          end
-          className={classNames(
-            "nav-link",
-            ({ ...isActive }) => isActive && "active"
-          )}
-        >
+        <a href="#features" className="nav-link">
           Recursos
-        </NavLink>
+        </a>
       </Nav.Item>
       <Nav.Item as="li">
-        <NavLink
-          to="/FAQs"
-          end
-          className={classNames(
-            "nav-link",
-            ({ ...isActive }) => isActive && "active"
-          )}
-        >
-          FAQs
-        </NavLink>
-      </Nav.Item>
-      <Nav.Item as="li">
-        <NavLink
-          to="/Membros"
-          end
-          className={classNames(
-            "nav-link",
-            ({ ...isActive }) => isActive && "active"
-          )}
-        >
+        <a href="#team" className="nav-link">
           Membros
-        </NavLink>
+        </a>
       </Nav.Item>
 
       {showDownload && (
         <>
           {loggedInUser ? (
             <Nav.Item as="li">
-              <NavLink
-                to="/auth/logout"
-                className="nav-link btn me-2 shadow-none"
-              >
+              <a href="/auth/logout" className="nav-link btn me-2 shadow-none">
                 Logout
-              </NavLink>
+              </a>
             </Nav.Item>
           ) : (
             <Nav.Item as="li">
-              <NavLink
-                to="/auth/login"
-                className="nav-link btn me-2 shadow-none"
-              >
+              <a href="/auth/login" className="nav-link btn me-2 shadow-none">
                 Log In
-              </NavLink>
+              </a>
             </Nav.Item>
           )}
 
           <Nav.Item as="li">
-            <Link to="/auth/signup" className={classNames("btn", buttonClass)}>
+            <a href="/auth/signup" className={classNames("btn", buttonClass)}>
               Cadastre-se
-            </Link>
+            </a>
           </Nav.Item>
         </>
       )}

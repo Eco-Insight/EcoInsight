@@ -1,20 +1,57 @@
-import { useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
-import { Project } from "./types";
-
+import { useEffect, useState } from "react";
+import { Route, Routes } from "react-router-dom";
 import Footer2 from "../../components/footer/Footer2";
 import Navbar4 from "../../components/navbarDashboard/Navbar4";
+import DiagnosticForm from "./DiagnosticForm";
 import ProfileWidget from "./ProfileWidget";
 import RecentProjects from "./RecentProjects";
+import { Project } from "./types";
 
-// Dados iniciais dos projetos
-import { projects as initialProjects } from "./data";
+const LOCAL_STORAGE_KEY = "ecoinsight_projects";
 
 const Dashboard = () => {
-  const [projects, setProjects] = useState(initialProjects);
+  const [projects, setProjects] = useState<Project[]>([]);
 
+  // Carrega os projetos do localStorage ao inicializar o componente
+  useEffect(() => {
+    const storedProjects = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (storedProjects) {
+      setProjects(JSON.parse(storedProjects));
+    }
+  }, []);
+
+  // Atualiza o localStorage sempre que os projetos mudarem
+  const saveProjectsToLocalStorage = (updatedProjects: Project[]) => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedProjects));
+  };
+
+  // Função para adicionar um novo projeto
   const addProject = (newProject: Project) => {
-    setProjects((prevProjects) => [newProject, ...prevProjects]);
+    setProjects((prevProjects) => {
+      const updatedProjects = [newProject, ...prevProjects];
+      saveProjectsToLocalStorage(updatedProjects);
+      return updatedProjects;
+    });
+  };
+
+  // Função para atualizar um projeto existente com os dados do diagnóstico
+  const updateProject = (
+    projectId: string,
+    data: {
+      diagnosticResponses: Record<string, number>;
+      score: number;
+      recommendations: string[];
+    }
+  ) => {
+    setProjects((prevProjects) => {
+      const updatedProjects = prevProjects.map((project) =>
+        project.projectId === projectId
+          ? { ...project, ...data } // Atualiza o projeto com as novas informações
+          : project
+      );
+      saveProjectsToLocalStorage(updatedProjects); // Atualiza o localStorage
+      return updatedProjects;
+    });
   };
 
   return (
@@ -22,23 +59,31 @@ const Dashboard = () => {
       <Navbar4 fixedWidth />
 
       <section className="position-relative overflow-hidden bg-gradient2 py-3 px-3">
-        <Container>
-          <Row>
-            <Col lg={12}>
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-12">
               <div className="page-title">
                 <h3 className="mb-0">Olá empresa</h3>
-                <p className="mt-1 fw-medium">Bem vindo a EcoInsight!</p>
+                <p className="mt-1 fw-medium">Bem vindo à EcoInsight!</p>
               </div>
-            </Col>
-          </Row>
-          <Row>
+            </div>
+          </div>
+          <div className="row">
             <ProfileWidget onAddProject={addProject} />
-          </Row>
+          </div>
           <RecentProjects projects={projects} />
-        </Container>
+        </div>
       </section>
 
       <Footer2 />
+
+      {/* Roteamento para o formulário de diagnóstico */}
+      <Routes>
+        <Route
+          path="/diagnostic/:projectId"
+          element={<DiagnosticForm updateProject={updateProject} />}
+        />
+      </Routes>
     </>
   );
 };

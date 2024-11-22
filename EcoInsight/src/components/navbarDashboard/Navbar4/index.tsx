@@ -2,10 +2,9 @@ import classNames from "classnames";
 import { Container, Nav, Navbar } from "react-bootstrap";
 
 import Menu from "./Menu";
-import NotificationDropdown from "./NotificationDropdown";
 import ProfileDropdown from "./ProfileDropdown";
 
-import { notifications, profileOptions } from "./data";
+import { profileOptions } from "./data";
 
 type Navbar4Props = {
   isSticky?: boolean;
@@ -35,7 +34,6 @@ const Navbar4 = ({ isSticky, navClass, fixedWidth }: Navbar4Props) => {
           <Navbar.Collapse id="topnav-menu-content4">
             <Menu />
             <Nav as="ul" className="align-items-lg-center">
-              <NotificationDropdown notifications={notifications} />
               <ProfileDropdown profileOptions={profileOptions} />
             </Nav>
           </Navbar.Collapse>

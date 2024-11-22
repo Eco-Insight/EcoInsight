@@ -12,7 +12,7 @@ import Features3 from "./Features3";
 const EcoInsight = () => {
   return (
     <>
-      <div className="header-2 primary">
+      <div id="home" className="header-2 primary">
         <NavbarMenu
           navClass="navbar-light zindex-10"
           isSticky={false}
@@ -23,16 +23,18 @@ const EcoInsight = () => {
         <Hero4 />
       </div>
 
-      <Features
-        features={features}
-        containerClass="position-relative overflow-hidden pt-lg-6 py-4 pb-lg-7"
-      />
+      <section id="features">
+        <Features
+          features={features}
+          containerClass="position-relative overflow-hidden pt-lg-6 py-4 pb-lg-7"
+        />
+        <Features2 />
+        <Features3 />
+      </section>
 
-      <Features2 />
-
-      <Features3 />
-
-      <Team teamMembers={teamMembers} />
+      <section id="team">
+        <Team teamMembers={teamMembers} />
+      </section>
 
       <Footer2 />
 
