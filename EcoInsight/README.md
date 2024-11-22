@@ -1,50 +1,52 @@
-# React + TypeScript + Vite
+# EcoInsight
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+O EcoInsight é uma plataforma desenvolvida para ajudar empresas a melhorar a sustentabilidade de seus projetos, fornecendo diagnósticos detalhados, scores de sustentabilidade e recomendações personalizadas com base em práticas ambientais modernas e acessíveis.
 
-Currently, two official plugins are available:
+## 🗺️ Começando
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Estas instruções permitem que você obtenha uma cópia do projeto em operação na sua máquina local para desenvolvimento e testes.
 
-## Expanding the ESLint configuration
+### 📋 Pré-requisitos
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Para executar este software localmente, você precisará ter o Node.js instalado em seu sistema. Você pode fazer o download e instalar o Node.js em [nodejs.org](https://nodejs.org/en).
 
-- Configure the top-level `parserOptions` property like this:
+### 🔧 Instalação
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+1. Clone este repositório em seu ambiente local utilizando o seguinte comando:
+
+```
+ git clone https://github.com/seu-usuario/EcoInsight.git
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+2. Navegue até o diretório do projeto:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
 ```
+cd EcoInsight
+```
+
+3. Instale as dependências do projeto utilizando npm:
+
+```
+npm install
+
+```
+
+4. Após a instalação das dependências, inicie o servidor de desenvolvimento com o seguinte comando:
+
+```
+npm run dev
+```
+
+Isso iniciará o servidor de desenvolvimento e abrirá automaticamente o aplicativo em seu navegador padrão. Se não abrir automaticamente, você pode acessá-lo manualmente em [http://localhost:3000](http://localhost:3000).
+
+## 🛠️ Tecnologias
+
+- [React](https://react.dev/) - Uma biblioteca JavaScript para construção de interfaces de usuário.
+
+- [React Router DOM](https://www.npmjs.com/package/react-router-dom): Um pacote que fornece roteamento para aplicativos React usando o DOM.,
+
+- [TypeScript](https://www.typescriptlang.org/) - Um superset do JavaScript que adiciona tipagem estática opcional.
+
+- [CSS](https://www.w3.org/Style/CSS/Overview.en.html) - Uma linguagem de estilo usada para descrever a apresentação de documentos escritos em HTML ou XML.
+
+- [Bootstrap](https://getbootstrap.com/) - Um framework CSS para facilitar a criação de layouts responsivos e estilizados.
