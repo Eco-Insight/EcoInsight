@@ -12,7 +12,6 @@ const LOCAL_STORAGE_KEY = "ecoinsight_projects";
 const Dashboard = () => {
   const [projects, setProjects] = useState<Project[]>([]);
 
-  // Carrega os projetos do localStorage ao inicializar o componente
   useEffect(() => {
     const storedProjects = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (storedProjects) {
@@ -20,12 +19,10 @@ const Dashboard = () => {
     }
   }, []);
 
-  // Atualiza o localStorage sempre que os projetos mudarem
   const saveProjectsToLocalStorage = (updatedProjects: Project[]) => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedProjects));
   };
 
-  // Função para adicionar um novo projeto
   const addProject = (newProject: Project) => {
     setProjects((prevProjects) => {
       const updatedProjects = [newProject, ...prevProjects];
@@ -34,7 +31,6 @@ const Dashboard = () => {
     });
   };
 
-  // Função para atualizar um projeto existente com os dados do diagnóstico
   const updateProject = (
     projectId: string,
     data: {
@@ -45,11 +41,9 @@ const Dashboard = () => {
   ) => {
     setProjects((prevProjects) => {
       const updatedProjects = prevProjects.map((project) =>
-        project.projectId === projectId
-          ? { ...project, ...data } // Atualiza o projeto com as novas informações
-          : project
+        project.projectId === projectId ? { ...project, ...data } : project
       );
-      saveProjectsToLocalStorage(updatedProjects); // Atualiza o localStorage
+      saveProjectsToLocalStorage(updatedProjects);
       return updatedProjects;
     });
   };
@@ -77,7 +71,6 @@ const Dashboard = () => {
 
       <Footer2 />
 
-      {/* Roteamento para o formulário de diagnóstico */}
       <Routes>
         <Route
           path="/diagnostic/:projectId"

@@ -4,6 +4,7 @@ import { Link, Navigate, useLocation } from "react-router-dom";
 import * as yup from "yup";
 
 import React from "react";
+import { loginUser } from "../../api/authApi"; // Atualizado para importar a função de login
 import { FormInput, VerticalForm } from "../../components/form";
 import AuthLayout from "./AuthLayout";
 
@@ -29,11 +30,6 @@ const Login = () => {
     })
   );
 
-  const fakeLogin = (credentials: UserData) => {
-    console.log("Credenciais enviadas:", credentials);
-    return true;
-  };
-
   const location = useLocation();
   let redirectUrl = "/auth/dashboard";
 
@@ -43,24 +39,27 @@ const Login = () => {
   }
 
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
 
-  const onSubmit = (formData: UserData) => {
-    const isAuthenticated = fakeLogin(formData);
-    setIsAuthenticated(isAuthenticated);
-
-    if (isAuthenticated) {
-      // Simula redirecionamento ao dashboard após login
-      console.log("Login bem-sucedido! Redirecionando para:", redirectUrl);
-    } else {
-      console.error("Falha no login");
+  const onSubmit = async (formData: UserData) => {
+    try {
+      const response = await loginUser(formData); // Chamada ao backend
+      console.log("Login bem-sucedido!", response);
+      setIsAuthenticated(true);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error("Erro ao fazer login:", err.message);
+        setError(err.message || "Erro ao fazer login. Tente novamente.");
+      } else {
+        console.error("Erro ao fazer login:", err);
+        setError("Erro ao fazer login. Tente novamente.");
+      }
     }
   };
 
   return (
     <>
-      {/* Exemplo de redirecionamento (substitua pela lógica real) */}
-      {isAuthenticated && <Navigate to={redirectUrl} replace />}{" "}
-      {/* Simula autenticação */}
+      {isAuthenticated && <Navigate to={redirectUrl} replace />}
       <AuthLayout
         hasSlider
         bottomLinks={
@@ -77,10 +76,11 @@ const Login = () => {
           {"Digite seu e-mail e senha para acessar sua conta."}
         </p>
 
-        <Alert variant="danger" className="mb-3" style={{ display: "none" }}>
-          {"Erro ao fazer login"}{" "}
-          {/* Remova `display: none` para exibir erros */}
-        </Alert>
+        {error && (
+          <Alert variant="danger" className="mb-3">
+            {error}
+          </Alert>
+        )}
 
         <VerticalForm<UserData>
           onSubmit={onSubmit}

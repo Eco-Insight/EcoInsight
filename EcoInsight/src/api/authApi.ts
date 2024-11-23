@@ -1,8 +1,7 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:8080/JavaEcoInsight_war/api/rest";
+const API_BASE_URL = "http://localhost:8080/EcoInsight-1.0-SNAPSHOT/api";
 
-// Instância do Axios para reutilizar configuração
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -10,7 +9,6 @@ const api = axios.create({
   },
 });
 
-// Tratamento de erro centralizado
 const handleApiError = (error: unknown, defaultMessage: string) => {
   if (axios.isAxiosError(error) && error.response) {
     throw new Error(error.response.data?.error || defaultMessage);
@@ -89,25 +87,6 @@ export const createProject = async (
   }
 };
 
-//Mock de criação do projeto que irá ser enviado para o back
-export const mockCreateProject = async (projectData: {
-  projectName: string;
-  description: string;
-  location: string;
-  estimatedBudget: number;
-  plannedEnergyTypes: string[];
-  mainObjective: string;
-}): Promise<{ projectId: string }> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      console.log("Mock project data:", projectData); // Use projectData
-      resolve({
-        projectId: `mock-${Date.now()}`, // Gera um projectId único
-      });
-    }, 1000); // Simula o tempo de resposta
-  });
-};
-
 export const getProjects = async (token: string) => {
   try {
     const response = await api.get("/projects", {
@@ -146,37 +125,23 @@ export const getDiagnostic = async (projectId: number) => {
   }
 };
 
-export const submitDiagnostic = async (diagnosticData: {
-  diagnosticResponses: Record<string, number>;
-}) => {
+// Envio de diagnóstico finalizado
+export const submitDiagnostic = async (
+  projectId: number,
+  diagnosticData: {
+    diagnosticResponses: Record<string, number>;
+  }
+) => {
   try {
-    const response = await api.post(`/projects/diagnostic`, diagnosticData, {
-      headers: { "Content-Type": "application/json" },
-    });
+    const response = await api.post(
+      `/projects/${projectId}/diagnostic`,
+      diagnosticData,
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
     return response.data; // Retorna o resultado do diagnóstico
   } catch (error: unknown) {
     handleApiError(error, "Erro ao enviar o diagnóstico.");
   }
-};
-
-// Mock de envio de diagnóstico
-export const mockSubmitDiagnostic = async (
-  projectId: string,
-  data: { diagnosticResponses: Record<string, number> }
-): Promise<{ score: number; recommendations: string[] }> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      console.log(
-        `Mock diagnóstico enviado para o projeto: ${projectId}`,
-        data
-      );
-      resolve({
-        score: Math.floor(Math.random() * 100), // Score mockado
-        recommendations: [
-          "Considerar implementação de um comitê ambiental envolvendo diferentes departamentos.",
-          "Desenvolver políticas ambientais documentadas e revisá-las periodicamente.",
-        ],
-      });
-    }, 1000); // Simula tempo de resposta do backend
-  });
 };

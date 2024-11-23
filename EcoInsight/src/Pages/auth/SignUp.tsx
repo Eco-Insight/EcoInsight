@@ -1,9 +1,10 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button } from "react-bootstrap";
+import { Alert, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
 
-import { registerUser } from "../../api/authApi";
+import React from "react";
+import { registerUser } from "../../api/authApi"; // Atualizado para usar o método do serviço
 import { FormInput, VerticalForm } from "../../components/form";
 import AuthLayout from "./AuthLayout";
 
@@ -23,16 +24,35 @@ const SignUp = () => {
         .string()
         .required("Por favor, insira um email.")
         .email("Por favor, insira um email válido."),
-      password: yup.string().required("Por favor, insira a senha."),
+      password: yup
+        .string()
+        .required("Por favor, insira uma senha.")
+        .min(6, "A senha deve ter no mínimo 6 caracteres."),
     })
+  );
+
+  const [error, setError] = React.useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = React.useState<string | null>(
+    null
   );
 
   const onSubmit = async (formData: UserData) => {
     try {
       const response = await registerUser(formData);
       console.log("Usuário registrado com sucesso:", response.message);
-    } catch (error: unknown) {
-      console.error("Erro ao registrar usuário:", error);
+      setSuccessMessage("Cadastro realizado com sucesso!");
+      setError(null);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error("Erro ao registrar usuário:", err.message);
+        setError(
+          err.message || "Erro ao registrar o usuário. Tente novamente."
+        );
+      } else {
+        console.error("Erro ao registrar usuário:", err);
+        setError("Erro ao registrar o usuário. Tente novamente.");
+      }
+      setSuccessMessage(null);
     }
   };
 
@@ -53,10 +73,21 @@ const SignUp = () => {
         Não tem uma conta? Crie sua conta agora, é rápido e fácil.
       </p>
 
+      {error && (
+        <Alert variant="danger" className="mb-3">
+          {error}
+        </Alert>
+      )}
+      {successMessage && (
+        <Alert variant="success" className="mb-3">
+          {successMessage}
+        </Alert>
+      )}
+
       <VerticalForm<UserData>
         onSubmit={onSubmit}
         resolver={schemaResolver}
-        defaultValues={{}}
+        defaultValues={{ exampleName: "", email: "", password: "" }}
       >
         <FormInput
           type="text"

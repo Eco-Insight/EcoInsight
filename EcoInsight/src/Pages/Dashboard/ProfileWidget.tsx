@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Card, Col, Form, Modal } from "react-bootstrap";
-import { mockCreateProject } from "../../api/authApi";
+import { createProject } from "../../api/authApi";
 
 type ProfileWidgetProps = {
   onAddProject: (newProject: {
@@ -44,7 +44,8 @@ const ProfileWidget = ({ onAddProject }: ProfileWidgetProps) => {
     };
 
     try {
-      const response = await mockCreateProject(newProject);
+      const token = localStorage.getItem("authToken") || "";
+      const response = await createProject(newProject, token);
 
       const updatedProject = {
         ...newProject,
@@ -60,7 +61,6 @@ const ProfileWidget = ({ onAddProject }: ProfileWidgetProps) => {
         member: [],
       };
 
-      // Atualiza o estado global dos projetos
       onAddProject(updatedProject);
 
       setSuccess("Projeto cadastrado com sucesso!");

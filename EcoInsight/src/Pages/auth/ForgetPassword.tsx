@@ -1,8 +1,9 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button } from "react-bootstrap";
+import { Alert, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
 
+import React from "react";
 import { requestPasswordReset } from "../../api/authApi";
 import { FormInput, VerticalForm } from "../../components/form";
 import AuthLayout from "./AuthLayout";
@@ -12,12 +13,29 @@ type UserData = {
 };
 
 const ForgetPassword = () => {
+  const [error, setError] = React.useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = React.useState<string | null>(
+    null
+  );
+
   const onSubmit = async (formData: UserData) => {
     try {
       const response = await requestPasswordReset(formData.email);
       console.log("Solicitação enviada:", response.message);
-    } catch (error: unknown) {
-      console.error("Erro ao solicitar redefinição de senha:", error);
+      setSuccessMessage("E-mail de redefinição enviado com sucesso!");
+      setError(null);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error("Erro ao solicitar redefinição de senha:", err.message);
+        setError(
+          err.message ||
+            "Erro ao solicitar redefinição de senha. Tente novamente."
+        );
+      } else {
+        console.error("Erro ao solicitar redefinição de senha:", err);
+        setError("Erro ao solicitar redefinição de senha. Tente novamente.");
+      }
+      setSuccessMessage(null);
     }
   };
 
@@ -47,10 +65,21 @@ const ForgetPassword = () => {
         redefinir sua senha.
       </p>
 
+      {error && (
+        <Alert variant="danger" className="mb-3">
+          {error}
+        </Alert>
+      )}
+      {successMessage && (
+        <Alert variant="success" className="mb-3">
+          {successMessage}
+        </Alert>
+      )}
+
       <VerticalForm<UserData>
         onSubmit={onSubmit}
         resolver={schemaResolver}
-        defaultValues={{}}
+        defaultValues={{ email: "" }}
       >
         <FormInput
           type="email"

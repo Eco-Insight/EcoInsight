@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Alert, Button, Form } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
-import { mockSubmitDiagnostic } from "../../api/authApi";
+import { submitDiagnostic } from "../../api/authApi";
 
 const DiagnosticForm = ({
   updateProject,
@@ -39,9 +39,12 @@ const DiagnosticForm = ({
       if (!projectId) throw new Error("ID do projeto não encontrado.");
 
       // Envia diagnóstico e obtém mock de resposta
-      const response = await mockSubmitDiagnostic(projectId, diagnosticData);
+      const response = await submitDiagnostic(
+        Number(projectId),
+        diagnosticData
+      );
 
-      console.log("Resposta do mockSubmitDiagnostic:", response);
+      console.log("Resposta do submitDiagnostic:", response);
 
       // Atualiza o projeto correspondente no Dashboard
       updateProject(projectId, {
